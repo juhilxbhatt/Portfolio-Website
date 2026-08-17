@@ -1,0 +1,19 @@
+services:
+  flask-server:
+    build: ./flask-server
+    ports:
+      - "5000:5000"
+    env_file:
+      # This loads the env vars from your existing .env file
+      - ./flask-server/.env
+
+  client:
+    build:
+      context: ./client
+      args:
+        # Point to the flask server via localhost since the frontend runs in the user's browser
+        - VITE_FLASK_API_URL=http://localhost:5000
+    ports:
+      - "3000:80"
+    depends_on:
+      - flask-server
