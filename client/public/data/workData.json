@@ -30,8 +30,21 @@
   {
     "name": "Safari Copper Recycling",
     "dateFrom": "05/2024",
-    "dateTo": "",
+    "dateTo": "03/2026",
     "position": "Manager + IT Support",
     "description": ["Handled Customers", "External Communication", "IT Support"]
+  },
+  {
+    "name": "Yokohama Suiran High School",
+    "dateFrom": "04/2026",
+    "dateTo": "07/2026",
+    "position": "Intern English ALT",
+    "description": ["~9 classes/week", "Assisting Teachers Run the Class", "Student English Speaking Practice"]
+  },{
+    "name": "AJBCC",
+    "dateFrom": "08/2026",
+    "dateTo": "09/2026",
+    "position": "Internship",
+    "description": ["Assisting With Events", "Assisting With IT Support", "Assisting With External Communication"]
   }
 ]

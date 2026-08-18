@@ -43,7 +43,7 @@ export default function Home() {
         </div>
         <div className="hero-text">
           <h1>Hello There I'm Juhil.</h1>
-          <h2>Full-Stack Developer & Software Engineer</h2>
+          <h2>Full Stack Developer & Software Engineer</h2>
           <p>I build scalable, interactive applications using modern web technologies.</p>
           <Button type="primary" size="large">
             <Link to="/projects">View My Work</Link>

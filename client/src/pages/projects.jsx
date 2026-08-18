@@ -38,7 +38,7 @@ export default function Projects() {
       <div className="projects-header">
         <h1 className="projects-title">Projects</h1>
         <p className="projects-subtitle">
-          A showcase of the tools, ideas, and creations I've built — from full-stack platforms to game prototypes.
+          A showcase of the tools, ideas, and creations I've built from full stack platforms to game prototypes.
         </p>
         <div className="projects-divider" />
       </div>

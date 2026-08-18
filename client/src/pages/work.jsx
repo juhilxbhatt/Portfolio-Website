@@ -35,7 +35,7 @@ export default function Work() {
           Work Experience
         </Title>
         <Paragraph className="work-subtitle">
-          A breakdown of roles I've worked in and the time spent in each — from customer support to IT & management.
+          A breakdown of roles I've worked in and the time spent in each - from customer support to IT & management.
         </Paragraph>
         <div className="card-section-divider" />
       </div>

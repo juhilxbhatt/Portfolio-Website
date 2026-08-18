@@ -18,7 +18,7 @@ export default function Contact() {
     <div className="contact-page">
       <div className="contact-intro">
         <h1>Get In Touch</h1>
-        <p>I’d love to hear from you! Whether you have a question or just want to say hi, feel free to drop a message below.</p>
+        <p>I'd love to hear from you! Whether you have a question or just want to say hi, feel free to drop a message below.</p>
       </div>
       <div className="contact-divider" />
       <Card title="Contact Me" className="contact-card fade-in-up" variant="borderless">

@@ -35,8 +35,21 @@
     "name": "University of Technology Sydney",
     "dateFrom": "02/2022",
     "dateTo": "",
-    "degree": "Bachelor of Science in Information Technology + International Studies",
+    "degree": "Bachelor of Science in Information Technology + International Studies (Japan)",
     "description": ["Not Finished"],
+    "certificate": ""
+  },{
+    "id": "3",
+    "name": "Yokohama National University",
+    "dateFrom": "04/2026",
+    "dateTo": "08/2026",
+    "degree": "Global Exchange Program",
+    "description": [
+      "Subjects:",
+      "J200 - Intensive Japanese Language",
+      "Data Literacy for Problem Solving",
+      "High School Teaching Internship | 1 b (Yokohama Suiran High School)"
+    ],
     "certificate": ""
   }
 ]
