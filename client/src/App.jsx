@@ -16,9 +16,9 @@ import "./styles/customHeader.css";
 import "./styles/customFooter.css";
 
 const { Header, Content, Footer } = Layout;
+const navItems = getNavList();
 
 const AppLayout = () => {
-  const navItems = getNavList();
 
   return (
     <>
@@ -34,12 +34,14 @@ const AppLayout = () => {
 
           {/* Content */}
           <Content>
-            <Routes>
-              {navItems.map(({ key, element }) => (
-                <Route key={key} path={key} element={React.createElement(element)} />
-              ))}
-              <Route path="*" element={<div>404: Page Not Found</div>} />
-            </Routes>
+            <React.Suspense fallback={<LoadingScreen />}>
+              <Routes>
+                {navItems.map(({ key, element }) => (
+                  <Route key={key} path={key} element={React.createElement(element)} />
+                ))}
+                <Route path="*" element={<div>404: Page Not Found</div>} />
+              </Routes>
+            </React.Suspense>
           </Content>
 
           {/* Footer */}
@@ -53,22 +55,6 @@ const AppLayout = () => {
 };
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (document.readyState === "complete") {
-      setLoading(false);
-      return;
-    }
-    
-    const handleLoad = () => setLoading(false);
-    window.addEventListener("load", handleLoad);
-
-    return () => window.removeEventListener("load", handleLoad);
-  }, []);
-
-  if (loading) return <LoadingScreen />;
-
   return (
     <Router>
       <AppLayout />

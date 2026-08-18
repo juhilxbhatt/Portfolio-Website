@@ -3,6 +3,11 @@ services:
     build: ./flask-server
     ports:
       - "5000:5000"
+    environment:
+      # Ensure Debug is turned off in production
+      - FLASK_DEBUG=0
+      # Restrict CORS to only allow requests from the frontend domain
+      - CORS_ORIGINS=http://localhost:3000
     env_file:
       # This loads the env vars from your existing .env file
       - ./flask-server/.env
@@ -14,6 +19,7 @@ services:
         # Point to the flask server via localhost since the frontend runs in the user's browser
         - VITE_FLASK_API_URL=http://localhost:5000
     ports:
-      - "3000:80"
+      # Map host port 3000 to the container's unprivileged port 8080
+      - "3000:8080"
     depends_on:
       - flask-server

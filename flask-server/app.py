@@ -2,6 +2,7 @@
 import base64
 import json
 import requests
+import concurrent.futures
 from os import environ
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -13,9 +14,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-app.config["DEBUG"] = environ.get("FLASK_DEBUG")
+# Restrict CORS to specified origins via environment variable
+cors_origins = environ.get("CORS_ORIGINS", "*").split(",")
+CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+
+app.config["DEBUG"] = environ.get("FLASK_DEBUG", "0") == "1"
 
 # ---------- Flask‑Mail ----------
 app.config["MAIL_SERVER"] = environ.get("MAIL_SERVER", "smtp.gmail.com")
@@ -76,32 +80,43 @@ def get_repos_with_portfolio_info(username):
             params={"per_page": 100, "sort": "updated"},
         )
 
-        enriched = []
-        for repo in repos:
-            repo_data = {
-                "name": repo["name"],
-                "html_url": repo["html_url"],
-                "description": repo["description"],
-                "portfolio_info": None,
-            }
-
-            # Try to pull PortfolioWebsiteInfo.json (optional)
+        def fetch_portfolio_info(repo_name):
             try:
                 file_resp = github_request(
-                    f"https://api.github.com/repos/{username}/{repo['name']}/contents/PortfolioWebsiteInfo.json",
+                    f"https://api.github.com/repos/{username}/{repo_name}/contents/PortfolioWebsiteInfo.json",
                     params={"ref": "main"},
                 )
                 if file_resp.get("encoding") == "base64":
                     raw = base64.b64decode(file_resp["content"]).decode("utf-8")
                     try:
-                        repo_data["portfolio_info"] = json.loads(raw)
+                        return json.loads(raw)
                     except Exception:
-                        repo_data["portfolio_info"] = {"error": "Invalid JSON", "raw": raw}
+                        return {"error": "Invalid JSON", "raw": raw}
             except requests.HTTPError as e:
                 if e.response.status_code != 404:
-                    raise  # re‑raise unexpected GitHub errors
+                    raise
+            return None
 
-            enriched.append(repo_data)
+        enriched = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+            future_to_repo = {}
+            for repo in repos:
+                repo_data = {
+                    "name": repo["name"],
+                    "html_url": repo["html_url"],
+                    "description": repo["description"],
+                    "portfolio_info": None,
+                }
+                enriched.append(repo_data)
+                future = executor.submit(fetch_portfolio_info, repo["name"])
+                future_to_repo[future] = repo_data
+
+            for future in concurrent.futures.as_completed(future_to_repo):
+                repo_data = future_to_repo[future]
+                try:
+                    repo_data["portfolio_info"] = future.result()
+                except Exception:
+                    pass
 
         return jsonify(enriched)
 

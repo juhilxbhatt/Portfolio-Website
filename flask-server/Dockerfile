@@ -1,4 +1,7 @@
-FROM python:3.14-slim
+FROM python:3.11-slim
+
+# Create a non-root user for security
+RUN useradd -m appuser
 
 WORKDIR /app
 
@@ -6,8 +9,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
-COPY . .
+# Copy the rest of the application and change ownership to the non-root user
+COPY --chown=appuser:appuser . .
+
+# Switch to the non-root user
+USER appuser
 
 # Expose port and run gunicorn
 EXPOSE 5000

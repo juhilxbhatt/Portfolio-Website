@@ -29,6 +29,9 @@ export default function ProjectCard({ project }) {
               src={url}
               alt={`Screenshot ${i}`}
               className="project-image"
+              width={400}
+              height={200}
+              style={{ objectFit: 'cover', width: '100%', height: 'auto', aspectRatio: '2/1' }}
             />
           ))}
         </Carousel>
@@ -39,6 +42,9 @@ export default function ProjectCard({ project }) {
           alt="Project Cover"
           src={mainImage}
           className="project-image"
+          width={400}
+          height={200}
+          style={{ objectFit: 'cover', width: '100%', height: 'auto', aspectRatio: '2/1' }}
         />
       );
     }

@@ -6,12 +6,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getNavList } from "../scripts/getNavList";
 import "../styles/customHeader.css";
 
+const navItems = getNavList();
+
 export default function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 770);
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const navItems = getNavList();
   const currentPath = location.pathname;
 
   useEffect(() => {

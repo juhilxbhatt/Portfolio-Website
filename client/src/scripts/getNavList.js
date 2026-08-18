@@ -1,10 +1,11 @@
 // src/scripts/getNavList.js
 // This uses Vite's glob import to get all files in pages
 
+import { lazy } from "react";
 import { setNavIcon } from "./setNavIcon.js";
 
 export const getNavList = () => {
-  const pages = import.meta.glob("../pages/*.jsx", { eager: true });
+  const pages = import.meta.glob("../pages/*.jsx");
 
   // Convert the pages object into an array of objects with label, key, element, and icon
   const pageList = Object.keys(pages).map((path) => {
@@ -15,7 +16,7 @@ export const getNavList = () => {
     return {
       label,
       key: fileKey === "home" ? "/" : `/${fileKey}`,
-      element: pages[path].default,
+      element: lazy(pages[path]),
       icon: setNavIcon[fileKey],
       fileKey,
     };
