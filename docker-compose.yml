@@ -3,6 +3,7 @@ services:
     build: ./flask-server
     ports:
       - "5000:5000"
+    restart: unless-stopped
     environment:
       # Ensure Debug is turned off in production
       - FLASK_DEBUG=0
@@ -18,6 +19,7 @@ services:
       args:
         # Point to the flask server via localhost since the frontend runs in the user's browser
         - VITE_FLASK_API_URL=http://localhost:5000
+    restart: unless-stopped
     ports:
       # Map host port 3000 to the container's unprivileged port 8080
       - "3000:8080"
